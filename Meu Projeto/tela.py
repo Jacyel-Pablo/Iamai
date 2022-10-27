@@ -1,5 +1,41 @@
 from tkinter import *
+from os import getlogin
+import chatterbot.preprocessors
 from Iamai import iamai
+from PIL import Image
+
+# essa parte está em desenvolvimento a imagem de fundo
+# ira se ajusta de acordo com o tamnho do monito
+#altura1 = 0
+#lagura1 = 0
+
+#def ajustando_iamgem():
+    #global altura1
+    #global lagura1
+
+    #janela_imagem = Tk()
+    #lagura1 = janela_imagem.winfo_screenwidth()
+   # altura1 = janela_imagem.winfo_screenheight()
+  #  janela_imagem.destroy()
+ #   janela_imagem.mainloop()
+
+#ajustando_iamgem()
+
+#Mundado a iamgem para o tamanho da tela
+
+#abrir_imagem = Image.open('Iamai.png')
+
+#largura2, altura2 = abrir_imagem.size
+
+#nova_largura = lagura1 // 2
+
+#nova_altura = altura1
+
+#abrir_imagem = abrir_imagem.thumbnail((nova_largura, nova_altura), Image.LANCZOS)
+
+#abrir_imagem.save('Iamai(1).png',
+        #quality = 60,
+        #exif = abrir_imagem.info.get('exif')
 
 contagem = 0
 def tela_inicial():
@@ -23,8 +59,8 @@ def tela_inicial():
         # altura é lagura do monitor
         altura = janela.winfo_screenheight()
         lagura = janela.winfo_screenwidth()
-        meio_tela = lagura / 5
-        meio_tela1 = altura / 2260
+        lagura1 = (lagura / 2) - 400
+        altura1 = (altura / 2) - 397
 
         # Adiciona uma imagem de fundo
         fundo = PhotoImage(file = 'Iamai.png')
@@ -32,12 +68,12 @@ def tela_inicial():
 
         # Mensagem da Iamai
         iamai_text = StringVar()
-        iamai_text.set(f'Seja bem-vindo {nome}')
-        mensagem_iamai = Label(janela, textvariable = iamai_text, font = 'Arial 40', bg = '#ffe6ff')
+        iamai_text.set(f'Seja bem-vindo {getlogin()}')
+        mensagem_iamai = Label(janela, textvariable = iamai_text, font = 'Arial 40', bg = '#ffe6ff', bd = 1, relief='solid', anchor = 'w')
 
         # Aqui é onde o texto do usúario vai aparece quando ele digita
         usuario = StringVar()
-        texto_usuario = Label(janela, textvariable = usuario, font = 'Arial 40', bg = '#66ccff')
+        texto_usuario = Label(janela, textvariable = usuario, font = 'Arial 40', bg = '#66ccff', bd = 1, relief='solid', anchor = 'w')
 
         # Aqui é onde o usuário ira digita algo
         textbox = Entry(janela, font = 'Arial 40')
@@ -58,11 +94,11 @@ def tela_inicial():
         botao1 = Button(janela, text = 'Enviar', command = enviar)
 
         # Colocando os objetos na tela
-        fundo1.place(x=meio_tela, y=meio_tela1)
-        mensagem_iamai.place(x=meio_tela, y=66)
-        texto_usuario.place(x=meio_tela + 535, y = 0)
-        textbox.place(x=meio_tela, y=650, height=55, width=800)
-        botao1.place(x=meio_tela + 800, y=650, height=55, width=102)
+        fundo1.place(x=lagura1, y=altura1)
+        mensagem_iamai.place(x=lagura1, y=66)
+        texto_usuario.place(x=lagura1 + 535, y = 0)
+        textbox.place(x=lagura1, y=650, height=55, width=800)
+        botao1.place(x=lagura1 + 700, y=650, height=55, width=102)
 
         janela.mainloop()
 
@@ -115,14 +151,21 @@ def cadrasto():
 # criar a tela de login
 
 janela1 = Tk()
+altura = janela1.winfo_screenheight()
+lagura = janela1.winfo_screenwidth()
+altura /= 2
+altura = int(altura)
+lagura /= 2
+lagura = int(lagura)
 janela1.iconbitmap('Iamai.ico')
 janela1.title('Iamai')
 janela1['bg'] = '#e65c00'
-janela1.geometry('240x130+500+250')
+janela1.geometry(f'240x130+{lagura - 120}+{altura - 65}') # +500+250
 janela1.resizable(False, False)
 
 label1 = Label(janela1, text = 'Digite seu nome:', bg = '#e65c00') # criar uma label pendido para o usuário digita seu nome
 nome_usuario = Entry(janela1) # Cria uma entrada para o usuário digita seu nome
+nome_usuario.focus()
 
 label2 = Label(janela1, text = 'Digite sua senha:', bg = '#e65c00') # criar uma label pendido para o usuário digita sua senha
 senha = Entry(janela1) # Cria uma entrada para o usuário digita sua senha
